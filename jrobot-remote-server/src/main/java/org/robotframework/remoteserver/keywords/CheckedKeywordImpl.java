@@ -18,6 +18,7 @@
 package org.robotframework.remoteserver.keywords;
 
 import java.lang.reflect.Method;
+import org.robotframework.javalib.annotation.ArgumentNames;
 import org.robotframework.javalib.reflection.ArgumentConverter;
 import org.robotframework.javalib.reflection.ArgumentGrouper;
 import org.robotframework.javalib.reflection.IArgumentConverter;
@@ -82,6 +83,9 @@ public class CheckedKeywordImpl implements CheckedKeyword {
     }
 
     @Override public String[] getArgumentNames() {
+        if (method.isAnnotationPresent(ArgumentNames.class)) {
+            return method.getAnnotation(ArgumentNames.class).value();
+        }
         String[] names = new String[method.getParameterCount()];
         for (int i = 0; i < method.getParameters().length; i++) {
             names[i] = method.getParameters()[i].getName();

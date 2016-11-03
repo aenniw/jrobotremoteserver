@@ -27,8 +27,6 @@ import java.util.Set;
 import java.util.stream.Stream;
 import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
-import org.robotframework.javalib.util.IKeywordNameNormalizer;
-import org.robotframework.javalib.util.KeywordNameNormalizer;
 import org.robotframework.remoteserver.library.RemoteLibrary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,19 +58,13 @@ public class OverloadedKeywordExtractor implements KeywordExtractor<OverloadedKe
 
     @Override public Map<String, OverloadedKeyword> extractKeywords(final RemoteLibrary keywordBean) {
         Objects.requireNonNull(keywordBean);
-        LOG.warn("Extracting {}", keywordBean.getURI());
-        IKeywordNameNormalizer keywordNameNormalizer = new KeywordNameNormalizer();
         final Map<String, OverloadedKeyword> overloadableKeywords = new HashMap<>();
         final Set<String> interfaceKeywords = new HashSet<>(), interfaceKeywordsOverload = new HashSet<>();
         getMethods(keywordBean.getClass()).forEach(method -> {
             if (method.isAnnotationPresent(RobotKeyword.class)) {
                 interfaceKeywords.add(method.getName());
-                LOG.warn("{} Detected Keyword  {}", method.getName(),
-                        keywordNameNormalizer.normalize(method.getName()));
             } else if (method.isAnnotationPresent(RobotKeywordOverload.class)) {
                 interfaceKeywordsOverload.add(method.getName());
-                LOG.warn("{} Detected KeywordOverload  {}", method.getName(),
-                        keywordNameNormalizer.normalize(method.getName()));
             }
         });
         Arrays.stream(keywordBean.getClass().getMethods())

@@ -8,8 +8,12 @@
     <bean id="test-library" class="org.robotframework.test.ExtendedLibrary">
         <argument ref="robot-remote-server"/>
     </bean>
+    <bean id="test-library-arguments" class="org.robotframework.test.ArgumentsLibrary">
+        <argument ref="robot-remote-server"/>
+    </bean>
     <!-- Services -->
     <service ref="test-library" interface="org.robotframework.test.TestLibraryService"/>
+    <service ref="test-library-arguments" interface="org.robotframework.remoteserver.library.RemoteLibrary"/>
     <service ref="test-library-parent" interface="org.robotframework.remoteserver.library.RemoteLibrary"/>
 </blueprint>
 
