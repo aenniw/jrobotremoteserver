@@ -6,10 +6,14 @@
     <parent>
         <artifactId>jrobot-parent</artifactId>
         <groupId>com.github.aenniw</groupId>
-        <version>${deploy.version}</version>
+        <version>3.5-SNAPSHOT</version>
     </parent>
     <artifactId>jrobot-test-library</artifactId>
     <packaging>bundle</packaging>
+
+    <properties>
+        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>com.github.aenniw</groupId>
@@ -17,7 +21,6 @@
             <version>${project.version}</version>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -26,6 +29,7 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <!-- Enables default Java8 storing of parameter names -->
                     <compilerArgument>-parameters</compilerArgument>
                 </configuration>
             </plugin>
@@ -48,6 +52,13 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
         </plugins>
     </build>

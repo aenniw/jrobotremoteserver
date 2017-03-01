@@ -73,7 +73,12 @@ Library Collection Serialization
     ${resp}    CollectionsLib.Get Set Strings
     Should Be Equal As Strings    ${resp}    ['1', '2', '3', '4']
     ${resp}    CollectionsLib.Get Map
-    Should Be Equal As Strings    ${resp}    {'5': 'five', '6': 'six', '10': 'ten'}
+    ${value}    Get From Dictionary    ${resp}    5
+    Should Be Equal As Strings    ${value}    five
+    ${value}    Get From Dictionary    ${resp}    6
+    Should Be Equal As Strings    ${value}    six
+    ${value}    Get From Dictionary    ${resp}    10
+    Should Be Equal As Strings    ${value}    ten
 
 Library POJO And Custom Serialization
     [Documentation]    Tests if Classes with custom serializers are recieved corectly
