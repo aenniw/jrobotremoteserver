@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.aenniw</groupId>
     <artifactId>jrobot-parent</artifactId>
-    <version>3.5-SNAPSHOT</version>
+    <version>3.4.2</version>
     <modules>
         <module>jrobot-remote-server</module>
         <module>jrobot-test-library</module>
@@ -232,6 +231,6 @@
         <connection>scm:git:git@github.com:aenniw/jrobotremoteserver.git</connection>
         <developerConnection>scm:git:git@github.com:aenniw/jrobotremoteserver.git</developerConnection>
         <url>git@github.com:aenniw/jrobotremoteserver.git</url>
-        <tag>HEAD</tag>
+        <tag>3.4.2</tag>
     </scm>
 </project>
