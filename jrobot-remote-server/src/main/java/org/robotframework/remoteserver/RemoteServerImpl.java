@@ -18,8 +18,10 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.util.Map;
 import java.util.Objects;
 import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.nio.SelectChannelConnector;
+import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.robotframework.remoteserver.library.RemoteLibrary;
@@ -47,9 +49,13 @@ public class RemoteServerImpl implements RemoteServer {
     protected static final Logger LOG = LoggerFactory.getLogger(RemoteServerImpl.class.getName());
     protected final Server server = new Server();
     private final RemoteServerContext servlet = new RemoteServerServlet();
-    private final SelectChannelConnector connector = new SelectChannelConnector();
+    private final ServerConnector connector;
 
     public RemoteServerImpl() {
+        HttpConfiguration httpConfiguration = new HttpConfiguration();
+        httpConfiguration.setSendServerVersion(false);
+        httpConfiguration.setSendXPoweredBy(false);
+        connector = new ServerConnector(server, new HttpConnectionFactory(httpConfiguration));
         connector.setName("jrobotremoteserver");
         server.setConnectors(new Connector[] {connector});
         ServletContextHandler servletContextHandler = new ServletContextHandler(server, "/", false, false);
@@ -120,7 +126,7 @@ public class RemoteServerImpl implements RemoteServer {
         LOG.info("Robot Framework remote server stopping");
         try {
             if (timeoutMS > 0) {
-                server.setGracefulShutdown(timeoutMS);
+                server.setStopTimeout(timeoutMS);
             }
             server.stop();
         } catch (Throwable e) {
