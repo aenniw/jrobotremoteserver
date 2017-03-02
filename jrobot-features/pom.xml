@@ -20,11 +20,6 @@
             <artifactId>jrobot-remote-server</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.aenniw</groupId>
-            <artifactId>jrobot-test-library</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
 
     <build>
