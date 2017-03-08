@@ -2,22 +2,4 @@ language: java
 jdk:
   - oraclejdk8
 script:
-  - if (git branch | grep -s "* master"); then
-      mvn install -DcoverallToken=${COV_TOKEN} jacoco:report coveralls:report;
-    else
-      mvn install;
-    fi
-before_deploy:
-  - mvn javadoc:jar
-  - export BIN=$(ls target/jrobotremoteserver-*-SNAPSHOT.jar)
-  - export DOCS=$(ls target/jrobotremoteserver-*-SNAPSHOT-javadoc.jar)
-
-deploy:
-  provider: releases
-  api_key: "${GH_TOKEN}"
-  file:
-    - "${BIN}"
-    - "${DOCS}"
-  skip_cleanup: true
-  on:
-    tags: true
+  - mvn install -DcoverallToken=${COV_TOKEN} jacoco:report coveralls:report
