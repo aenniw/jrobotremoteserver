@@ -18,12 +18,14 @@
 package org.robotframework.remoteserver.keywords;
 
 import java.lang.reflect.Method;
+import java.util.Objects;
 import org.robotframework.javalib.annotation.ArgumentNames;
 import org.robotframework.javalib.reflection.ArgumentConverter;
 import org.robotframework.javalib.reflection.ArgumentGrouper;
 import org.robotframework.javalib.reflection.IArgumentConverter;
 import org.robotframework.javalib.reflection.IArgumentGrouper;
 import org.robotframework.remoteserver.anotations.KeywordDocumentation;
+import org.robotframework.remoteserver.anotations.KeywordTags;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,6 +69,14 @@ public class CheckedKeywordImpl implements CheckedKeyword {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override public String[] getTags() {
+        KeywordTags tags = method.getAnnotation(KeywordTags.class);
+        if (Objects.nonNull(tags) && tags.value().length > 0) {
+            return tags.value();
+        }
+        return new String[0];
     }
 
     protected IArgumentConverter getArgumentConverter() {

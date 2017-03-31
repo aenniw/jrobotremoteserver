@@ -23,8 +23,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -101,5 +105,15 @@ public class OverloadedKeywordImpl implements OverloadedKeyword {
             }
         }
         return "";
+    }
+
+    @Override public String[] getTags() {
+        Set<String> tags = new HashSet<>();
+        for (List<CheckedKeyword> keywords : keywordMap.values()) {
+            for (CheckedKeyword keyword : keywords) {
+                Arrays.stream(keyword.getTags()).filter(Objects::nonNull).collect(Collectors.toCollection(() -> tags));
+            }
+        }
+        return tags.toArray(new String[tags.size()]);
     }
 }

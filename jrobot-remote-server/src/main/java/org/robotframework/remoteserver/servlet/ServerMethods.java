@@ -128,6 +128,11 @@ public class ServerMethods implements JRobotServlet {
         return args == null ? new String[0] : args;
     }
 
+    @Override public String[] get_keyword_tags(String keyword) {
+        final String[] args = servlet.getLibrary().getKeywordTags(keyword);
+        return args == null ? new String[0] : args;
+    }
+
     @Override public String get_keyword_documentation(String keyword) {
         final String doc = servlet.getLibrary().getKeywordDocumentation(keyword);
         return doc == null ? "" : doc;

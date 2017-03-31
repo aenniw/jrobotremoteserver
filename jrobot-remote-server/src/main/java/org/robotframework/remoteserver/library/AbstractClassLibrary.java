@@ -64,6 +64,10 @@ import org.robotframework.remoteserver.keywords.OverloadedKeywordFactory;
         return createKeywordFactory().createKeyword(keywordName).getArgumentNames();
     }
 
+    @Override public synchronized String[] getKeywordTags(String keywordName) {
+        return createKeywordFactory().createKeyword(keywordName).getTags();
+    }
+
     @Override public synchronized String getKeywordDocumentation(String keywordName) {
         return createKeywordFactory().createKeyword(keywordName).getDocumentation();
     }

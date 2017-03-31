@@ -53,6 +53,14 @@ public interface RemoteLibrary extends KeywordDocumentationRepository, RobotJava
     @Override String[] getKeywordArguments(String keyword);
 
     /**
+     * Gets the tags for the given keyword name.
+     *
+     * @param keyword name of the keyword to get argument specifications for
+     * @return array of tags
+     */
+    String[] getKeywordTags(String keyword);
+
+    /**
      * Gets the documentation string for the given keyword name.
      *
      * @param name name of the keyword to get documentation for

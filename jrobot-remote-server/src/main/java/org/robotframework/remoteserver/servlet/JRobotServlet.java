@@ -43,6 +43,14 @@ public interface JRobotServlet {
     String[] get_keyword_arguments(String keyword);
 
     /**
+     * Get an array of tags for the given keyword.
+     *
+     * @param keyword The keyword to lookup.
+     * @return A string array of tags for the given keyword.
+     */
+    String[] get_keyword_tags(String keyword);
+
+    /**
      * Get documentation for given keyword.
      *
      * @param keyword The keyword to get documentation for.
