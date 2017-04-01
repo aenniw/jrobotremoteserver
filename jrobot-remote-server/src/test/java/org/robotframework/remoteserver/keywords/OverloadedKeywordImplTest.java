@@ -1,6 +1,7 @@
 package org.robotframework.remoteserver.keywords;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -64,6 +65,16 @@ public class OverloadedKeywordImplTest {
     @Test public void getDocumentation() throws Exception {
         Assert.assertEquals("plusDoc", checkedKeyword.getDocumentation());
         Assert.assertEquals("", checkedKeywordDefault.getDocumentation());
+    }
+
+    @Test public void getTags() throws Exception {
+        Assert.assertArrayEquals(new String[0], Arrays.stream(checkedKeyword.getTags()).sorted().toArray());
+        Assert.assertArrayEquals(Stream.of("default").sorted().toArray(),
+                Arrays.stream(checkedKeywordDefault.getTags()).sorted().toArray());
+        addDefaultOverload();
+        Assert.assertArrayEquals(Stream.of("default", "defaultOverload").sorted().toArray(),
+                Arrays.stream(checkedKeywordDefault.getTags()).sorted().toArray());
+
     }
 
 }

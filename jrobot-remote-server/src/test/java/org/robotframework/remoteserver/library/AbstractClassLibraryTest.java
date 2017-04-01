@@ -58,6 +58,13 @@ public class AbstractClassLibraryTest {
                 Arrays.stream(library.getKeywordArguments(keywordPlus)).sorted().toArray());
     }
 
+    @Test public void getKeywordTags() throws Exception {
+        Assert.assertArrayEquals(new String[0], Arrays.stream(library.getKeywordTags(keywordPlus)).sorted().toArray());
+
+        Assert.assertArrayEquals(Stream.of("-", "minus").sorted().toArray(),
+                Arrays.stream(library.getKeywordTags(keywordMinus)).sorted().toArray());
+    }
+
     @Test public void getKeywordDocumentation() throws Exception {
         Assert.assertEquals(keywordDocPlus, library.getKeywordDocumentation(keywordPlus));
         Assert.assertEquals(keywordDocMinus, library.getKeywordDocumentation(keywordMinus));

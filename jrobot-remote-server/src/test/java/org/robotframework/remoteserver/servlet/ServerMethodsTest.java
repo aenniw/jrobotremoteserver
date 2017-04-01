@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,6 +41,24 @@ public class ServerMethodsTest {
         Assert.assertNotNull(names);
         Assert.assertEquals(1, names.length);
         Assert.assertEquals("keyword", names[0]);
+    }
+
+    @Test public void get_keyword_tags() throws Exception {
+        library = new AbstractLibraryTest(mock(RemoteServer.class));
+        Mockito.when(servlet.getLibrary()).thenReturn(library);
+
+        String[] tags = serverMethods.get_keyword_tags("plus");
+        Assert.assertNotNull(tags);
+        Assert.assertArrayEquals(new String[0], Stream.of(tags).sorted().toArray());
+
+        tags = serverMethods.get_keyword_tags("minus");
+        Assert.assertNotNull(tags);
+        Assert.assertArrayEquals(Stream.of("-", "minus").sorted().toArray(), Stream.of(tags).sorted().toArray());
+
+        tags = serverMethods.get_keyword_tags("defaultKeyword");
+        Assert.assertNotNull(tags);
+        Assert.assertArrayEquals(Stream.of("default", "defaultOverload").sorted().toArray(),
+                Stream.of(tags).sorted().toArray());
     }
 
     @Test public void run_keyword() throws Exception {

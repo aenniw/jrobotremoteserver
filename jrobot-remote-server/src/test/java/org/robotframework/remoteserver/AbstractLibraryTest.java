@@ -6,6 +6,7 @@ import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 import org.robotframework.remoteserver.anotations.KeywordDocumentation;
+import org.robotframework.remoteserver.anotations.KeywordTags;
 import org.robotframework.remoteserver.library.AbstractClassLibrary;
 
 @RobotKeywords public class AbstractLibraryTest extends AbstractClassLibrary {
@@ -22,15 +23,17 @@ import org.robotframework.remoteserver.library.AbstractClassLibrary;
         return a + b;
     }
 
-    @RobotKeyword @KeywordDocumentation(value = "minusDoc") public int minus(int a, int b) {
+    @RobotKeyword @KeywordDocumentation(value = "minusDoc") @KeywordTags(value = {"minus", "-"})
+    public int minus(int a, int b) {
         return a - b;
     }
 
-    @RobotKeyword public int defaultKeyword(int a, int b) {
+    @RobotKeyword @KeywordTags(value = {"default"}) public int defaultKeyword(int a, int b) {
         return a + b;
     }
 
-    @RobotKeywordOverload public int defaultKeyword(int a, int b, int c) {
+    @RobotKeywordOverload @KeywordTags(value = {"default", "defaultOverload"})
+    public int defaultKeyword(int a, int b, int c) {
         return a + b + c;
     }
 
