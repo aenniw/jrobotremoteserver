@@ -67,11 +67,19 @@ public class OverloadedKeywordExtractor implements KeywordExtractor<OverloadedKe
                 interfaceKeywordsOverload.add(method.getName());
             }
         });
-        Arrays.stream(keywordBean.getClass().getMethods())
-                .filter(m -> (m.isAnnotationPresent(RobotKeyword.class) || interfaceKeywords.contains(m.getName()))
-                        && !overloadableKeywords.containsKey(m.getName()))
+        final Method methods[] = keywordBean.getClass().getMethods();
+        Arrays.stream(methods)
+                .filter(m -> (m.isAnnotationPresent(RobotKeyword.class)))
                 .forEach(m -> overloadableKeywords.put(m.getName(), new OverloadedKeywordImpl(keywordBean, m)));
-        Arrays.stream(keywordBean.getClass().getMethods())
+        Arrays.stream(methods)
+                .filter(m -> (interfaceKeywords.contains(m.getName())) && !overloadableKeywords.containsKey(
+                        m.getName()))
+                .forEach(m -> overloadableKeywords.put(m.getName(), new OverloadedKeywordImpl(keywordBean, m)));
+        /*
+         * FIXME: KW_O may generate unexpected KW if KW method name collide with non KW method,
+         *        but as it will be added as Overloaded KW during execution best match for KW method will be used.
+         */
+        Arrays.stream(methods)
                 .filter(m -> overloadableKeywords.containsKey(m.getName()) && (
                         m.isAnnotationPresent(RobotKeywordOverload.class) || interfaceKeywordsOverload.contains(
                                 m.getName())))

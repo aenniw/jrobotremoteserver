@@ -17,5 +17,8 @@
     <bean id="test-library-serializers" class="org.robotframework.test.SerializersLibrary">
         <argument ref="robot-remote-server"/>
     </bean>
+    <bean id="test-library-conflicts" class="org.robotframework.test.ConflictLibrary">
+        <argument ref="robot-remote-server"/>
+    </bean>
 </blueprint>
 

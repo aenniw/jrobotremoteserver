@@ -50,8 +50,11 @@ public class OverloadedKeywordImpl implements OverloadedKeyword {
         final int argCount = arguments.length;
         if (keywordMap.containsKey(argCount)) {
             for (CheckedKeyword checkedKeyword : keywordMap.get(argCount)) {
-                if (checkedKeyword.canExecute(arguments))
+                if (checkedKeyword.canExecute(arguments)) {
+                    LOG.debug("EXECUTED {} args{}", keywordName, checkedKeyword.getArgumentNames().length);
                     return checkedKeyword.execute(arguments);
+                }
+                LOG.debug("EXECUTION SKIPPED {} args {}", keywordName, checkedKeyword.getArgumentNames().length);
             }
             throw new IllegalArgumentException(
                     String.format("%s cannot be executed with args %s.", keywordName, Arrays.toString(arguments)));

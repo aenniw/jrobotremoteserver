@@ -102,6 +102,13 @@ Library POJO And Custom Serialization
     List Should Contain Value    ${coordinates}    1
     List Should Contain Value    ${coordinates}    2
 
+Library Confict resolving
+    [Documentation]    Test if Keyword extraction works properly if Keywords conflicts with other methods
+    ${resp}    ConflictLib.Conflict Method    nine five one    951
+    Should Be Equal As Strings    ${resp}    [nine five one],[951]
+    ${resp}    ConflictLib.Conflict Overloaded Method    nine five one    951    false
+    Should Be Equal As Strings    ${resp}    [nine five one],[951],[false]
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Initialize Suite resources
@@ -117,6 +124,7 @@ Setup Suite
     Import Library    Remote    http://localhost:8270/ArgumentsLibrary    WITH NAME    ArgumentsLib
     Import Library    Remote    http://localhost:8270/CollectionsLibrary    WITH NAME    CollectionsLib
     Import Library    Remote    http://localhost:8270/SerializersLibrary    WITH NAME    SerializersLib
+    Import Library    Remote    http://localhost:8270/ConflictLibrary    WITH NAME    ConflictLib
 
 Clean Suite
     [Documentation]    Cleans Suites resources
