@@ -38,8 +38,7 @@ import org.robotframework.remoteserver.xmlrpc.TypeFactory;
 /**
  * This servlet can be used with servlet containers such as GlassFish,
  * WebSphere, Tiny Java Web Server, etc. The paths for the library mapping are
- * relative to the servlet path. When a remote stop is performed,
- * <code>System.exit(0)</code> is executed.
+ * relative to the servlet path.
  */
 public class RemoteServerServlet extends XmlRpcServlet implements RemoteServerContext {
 
@@ -69,6 +68,10 @@ public class RemoteServerServlet extends XmlRpcServlet implements RemoteServerCo
         return path;
     }
 
+    /**
+     * @param path {@link String} that will be checked for errors
+     * @return Provided {@link String}
+     */
     protected static String checkPath(String path) {
         if (path == null || !path.startsWith("/")) {
             throw new IllegalPathException(String.format("Path [%s] does not start with a /.", path));
@@ -153,6 +156,9 @@ public class RemoteServerServlet extends XmlRpcServlet implements RemoteServerCo
         return request.get();
     }
 
+    /**
+     * @return {@link String} containing HTML page exposing local {@link RemoteLibrary}
+     */
     protected String getPage() {
         Map<String, RemoteLibrary> map = new TreeMap<>(getLibraryMap());
         StringBuilder sb = new StringBuilder();

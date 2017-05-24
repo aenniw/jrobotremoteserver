@@ -19,17 +19,11 @@ import org.robotframework.javalib.library.KeywordDocumentationRepository;
 import org.robotframework.javalib.library.RobotJavaLibrary;
 
 /**
- * An interface for handling libraries in jrobotremoteserver. There is no reason
- * for libraries to implement this.
+ * An interface for handling libraries in {@link org.robotframework.remoteserver.RemoteServer}.
  * User libraries are wrapped so that they can be handled in the same way.
  */
 public interface RemoteLibrary extends KeywordDocumentationRepository, RobotJavaLibrary, AutoCloseable {
 
-    /**
-     * Returns the names of keywords in the library.
-     *
-     * @return The names of keywords in the library.
-     */
     @Override String[] getKeywordNames();
 
     /**

@@ -41,6 +41,11 @@ public class ServerMethods implements JRobotServlet {
     private static final String[] logLevelPrefixes = new String[] {"*TRACE*", "*DEBUG*", "*INFO*", "*HTML*", "*WARN*"};
     private final RemoteServerServlet servlet;
 
+    /**
+     * Constructor creating {@link JRobotServlet}
+     *
+     * @param servlet Instance containing Robot-framework remote libraries implementations
+     */
     public ServerMethods(RemoteServerServlet servlet) {
         this.servlet = servlet;
     }
@@ -138,6 +143,12 @@ public class ServerMethods implements JRobotServlet {
         return doc == null ? "" : doc;
     }
 
+    /**
+     * Extract error message from provided {@link Throwable}
+     *
+     * @param thrown Instance of {@link Throwable} that is used for extraction
+     * @return Extracted error
+     */
     private String getError(Throwable thrown) {
         final String simpleName = thrown.getClass().getSimpleName();
         if (genericExceptions.contains(simpleName) || isFlagSet("ROBOT_SUPPRESS_NAME", thrown)) {
@@ -147,6 +158,11 @@ public class ServerMethods implements JRobotServlet {
         }
     }
 
+    /**
+     * @param name   Name of {@link java.lang.reflect.Field}
+     * @param thrown Instance of {@link Throwable} that will be checked
+     * @return Checks if {@link java.lang.reflect.Field} for provided name is set
+     */
     private boolean isFlagSet(String name, Throwable thrown) {
         boolean flag = false;
         try {
@@ -156,6 +172,13 @@ public class ServerMethods implements JRobotServlet {
         return flag;
     }
 
+    /**
+     * Recursively converts {@link java.lang.reflect.Array} to {@link List},
+     * or re-wrap {@link Map}
+     *
+     * @param arg Instance of {@link Object} that will be converted
+     * @return Converted result
+     */
     protected Object arraysToLists(Object arg) {
         if (arg instanceof Object[]) {
             Object[] array = (Object[]) arg;
@@ -173,8 +196,12 @@ public class ServerMethods implements JRobotServlet {
             return arg;
     }
 
+    /**
+     * @param t Instance of {@link Throwable} that will be checked
+     * @return If cause of {@link Throwable} is due to {@link IllegalArgumentException}
+     */
     private boolean illegalArgumentIn(Throwable t) {
-        if (!Objects.nonNull(t) || t.getClass().equals(IllegalArgumentException.class)) {
+        if (Objects.isNull(t) || t.getClass().equals(IllegalArgumentException.class)) {
             return true;
         }
         Throwable inner = t;

@@ -51,6 +51,10 @@ public class RemoteServerImpl implements RemoteServer {
     private final RemoteServerContext servlet = new RemoteServerServlet();
     private final ServerConnector connector;
 
+    /**
+     * Default constructor instantiating {@link RemoteServer}
+     * providing Robot-framework remote library manager
+     */
     public RemoteServerImpl() {
         HttpConfiguration httpConfiguration = new HttpConfiguration();
         httpConfiguration.setSendServerVersion(false);

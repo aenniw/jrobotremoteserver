@@ -32,6 +32,9 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Class providing implementation of {@link OverloadedKeyword}
+ */
 public class OverloadedKeywordImpl implements OverloadedKeyword {
 
     protected static final Logger LOG = LoggerFactory.getLogger(OverloadedKeywordImpl.class.getName());
@@ -40,6 +43,13 @@ public class OverloadedKeywordImpl implements OverloadedKeyword {
     private final String keywordName;
     private final Object keywordClass;
 
+    /**
+     * Constructor creating {@link OverloadedKeyword} providing {@link Object} and {@link Method},
+     * that are associated together
+     *
+     * @param keywordClass {@link Object} instance used for execution of {@link Method}
+     * @param method       {@link Method} providing execution routine
+     */
     public OverloadedKeywordImpl(Object keywordClass, Method method) {
         this.keywordName = method.getName();
         this.keywordClass = keywordClass;
@@ -94,6 +104,12 @@ public class OverloadedKeywordImpl implements OverloadedKeyword {
         return arguments;
     }
 
+    /**
+     * Tests if {@link Method} has defined VARARGS argument
+     *
+     * @param method {@link Method} that will be tested
+     * @return If {@link Method} arguments consists of VARARGS
+     */
     private boolean hasVariableArgs(Method method) {
         final int argCount = method.getParameterTypes().length;
         return (argCount > 0 && method.getParameterTypes()[argCount - 1].isArray());

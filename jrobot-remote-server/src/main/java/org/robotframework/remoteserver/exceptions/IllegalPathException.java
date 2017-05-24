@@ -5,6 +5,9 @@ package org.robotframework.remoteserver.exceptions;
  */
 public class IllegalPathException extends RuntimeException {
 
+    /**
+     * @param message Description of error
+     */
     public IllegalPathException(String message) {
         super(message);
     }

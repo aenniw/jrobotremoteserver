@@ -20,6 +20,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.xmlrpc.webserver.XmlRpcServletServer;
 import org.robotframework.remoteserver.library.RemoteLibrary;
 
+/**
+ * Represent extension of {@link Servlet} adding capabilities,
+ * for managing Robot-framework remote libraries
+ */
 public interface RemoteServerContext extends Servlet {
 
     /**

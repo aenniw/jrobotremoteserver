@@ -29,6 +29,9 @@ import org.robotframework.remoteserver.anotations.KeywordTags;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Class providing implementation of {@link CheckedKeyword}
+ */
 public class CheckedKeywordImpl implements CheckedKeyword {
 
     protected static final Logger LOG = LoggerFactory.getLogger(CheckedKeywordImpl.class.getName());
@@ -38,6 +41,13 @@ public class CheckedKeywordImpl implements CheckedKeyword {
     private final Method method;
     private final Object obj;
 
+    /**
+     * Constructor creating {@link CheckedKeyword} providing {@link Object} and {@link Method},
+     * that are associated together
+     *
+     * @param obj    {@link Object} instance used for execution of {@link Method}
+     * @param method {@link Method} providing execution routine
+     */
     public CheckedKeywordImpl(Object obj, Method method) {
         this.obj = obj;
         this.method = method;
@@ -79,10 +89,16 @@ public class CheckedKeywordImpl implements CheckedKeyword {
         return new String[0];
     }
 
+    /**
+     * @return {@link IArgumentConverter}used for conversion of {@link CheckedKeyword} arguments
+     */
     protected IArgumentConverter getArgumentConverter() {
         return argumentConverter;
     }
 
+    /**
+     * @return {@link IArgumentGrouper} used for grouping of {@link CheckedKeyword} arguments
+     */
     protected IArgumentGrouper getArgumentGrouper() {
         return argumentGrouper;
     }

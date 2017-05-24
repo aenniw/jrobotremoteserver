@@ -21,7 +21,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Annotation represents Docs string that is presented as description of Robot-framework Keyword
+ */
 @Retention(RetentionPolicy.RUNTIME) @Target(ElementType.METHOD) public @interface KeywordDocumentation {
 
+    /**
+     * @return Brief description of Keyword
+     */
     String value() default "";
 }

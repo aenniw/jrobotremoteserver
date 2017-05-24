@@ -25,12 +25,21 @@ import org.robotframework.javalib.util.IKeywordNameNormalizer;
 import org.robotframework.javalib.util.KeywordNameNormalizer;
 import org.robotframework.remoteserver.library.RemoteLibrary;
 
+/**
+ * Class providing implementation of {@link KeywordFactory}
+ */
 public class OverloadedKeywordFactory implements KeywordFactory<OverloadedKeyword> {
 
     private final KeywordExtractor<OverloadedKeyword> extractor;
     private final Map<String, OverloadedKeyword> keywords = new HashMap<>();
     private final IKeywordNameNormalizer keywordNameNormalizer = new KeywordNameNormalizer();
 
+    /**
+     * Constructor creating Factory used for generating {@link OverloadedKeyword}
+     *
+     * @param keywordBean Instance providing {@link OverloadedKeyword} definitions
+     * @param extractor   Extractor used by factory for {@link OverloadedKeyword} extraction from {@link RemoteLibrary}
+     */
     public OverloadedKeywordFactory(RemoteLibrary keywordBean, KeywordExtractor<OverloadedKeyword> extractor) {
         this.extractor = Objects.requireNonNull(extractor);
         extractKeywordsFromKeywordBean(Objects.requireNonNull(keywordBean));
@@ -44,6 +53,11 @@ public class OverloadedKeywordFactory implements KeywordFactory<OverloadedKeywor
         return keywords.keySet().toArray(new String[keywords.size()]);
     }
 
+    /**
+     * Extract {@link OverloadedKeyword} from provided {@link RemoteLibrary} object
+     *
+     * @param keywordBean Instance providing {@link OverloadedKeyword} definitions
+     */
     protected void extractKeywordsFromKeywordBean(RemoteLibrary keywordBean) {
         Map<String, OverloadedKeyword> extractedKeywords = extractor.extractKeywords(keywordBean);
         for (String keywordName : extractedKeywords.keySet()) {

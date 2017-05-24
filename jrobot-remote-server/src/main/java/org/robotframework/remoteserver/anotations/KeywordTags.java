@@ -21,7 +21,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Annotation represent Tags used to filter out Robot-framework Keywords
+ */
 @Retention(RetentionPolicy.RUNTIME) @Target(ElementType.METHOD) public @interface KeywordTags {
 
+    /**
+     * @return Tags associated with Keyword
+     */
     String[] value();
 }

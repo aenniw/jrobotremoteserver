@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.util.Map;
 import org.robotframework.remoteserver.library.RemoteLibrary;
 
+/**
+ * Provides way of providing and managing {@link RemoteLibrary} that are used as Robot-framework remote libraries
+ */
 public interface RemoteServer {
 
     /**

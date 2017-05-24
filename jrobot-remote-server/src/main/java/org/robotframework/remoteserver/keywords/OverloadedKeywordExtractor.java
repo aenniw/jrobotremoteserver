@@ -31,14 +31,23 @@ import org.robotframework.remoteserver.library.RemoteLibrary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Class providing implementation of {@link KeywordExtractor}
+ */
 public class OverloadedKeywordExtractor implements KeywordExtractor<OverloadedKeyword> {
 
     protected static final Logger LOG = LoggerFactory.getLogger(OverloadedKeywordExtractor.class.getName());
     private static OverloadedKeywordExtractor singleton;
 
+    /**
+     * NOP Constructor
+     */
     protected OverloadedKeywordExtractor() {
     }
 
+    /**
+     * @return Singleton instance of {@link KeywordExtractor} of {@link OverloadedKeyword}
+     */
     public static synchronized OverloadedKeywordExtractor createInstance() {
         if (singleton == null) {
             singleton = new OverloadedKeywordExtractor();
@@ -46,6 +55,12 @@ public class OverloadedKeywordExtractor implements KeywordExtractor<OverloadedKe
         return singleton;
     }
 
+    /**
+     * Extracts {@link Method} from provided {@link Class} and its implemented interfaces
+     *
+     * @param obj {@link Class} definition used for {@link Method} extraction
+     * @return Extracted {@link Method}
+     */
     public static Stream<Method> getMethods(Class<?> obj) {
         if (obj == null)
             return Stream.empty();

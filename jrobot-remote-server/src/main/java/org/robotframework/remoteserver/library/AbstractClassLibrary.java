@@ -28,11 +28,18 @@ import org.robotframework.remoteserver.keywords.OverloadedKeyword;
 import org.robotframework.remoteserver.keywords.OverloadedKeywordExtractor;
 import org.robotframework.remoteserver.keywords.OverloadedKeywordFactory;
 
+/**
+ * Represent extension of {@link KeywordFactoryBasedLibrary} providing
+ * base on which Robot-framework libraries can be build
+ */
 @RobotKeywords public abstract class AbstractClassLibrary extends KeywordFactoryBasedLibrary<OverloadedKeyword>
         implements RemoteLibrary {
 
     private KeywordFactory<OverloadedKeyword> keywordFactory;
 
+    /**
+     * @param server Server used for registration of Robot-framework remote library
+     */
     protected AbstractClassLibrary(RemoteServer server) {
         Objects.requireNonNull(server).putLibrary("/" + getURI().trim().replace(" ", "_"), this);
     }
