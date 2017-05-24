@@ -81,6 +81,10 @@ public class CheckedKeywordImpl implements CheckedKeyword {
         }
     }
 
+    @Override public Class<?>[] getArguments() {
+        return method.getParameterTypes();
+    }
+
     @Override public String[] getTags() {
         KeywordTags tags = method.getAnnotation(KeywordTags.class);
         if (Objects.nonNull(tags) && tags.value().length > 0) {

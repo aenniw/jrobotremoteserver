@@ -21,7 +21,9 @@ import com.google.common.collect.Iterables;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -79,14 +81,33 @@ public class OverloadedKeywordImpl implements OverloadedKeyword {
     @Override public void addOverload(Method method) {
         final int argCount = method.getParameterTypes().length;
         if (hasVariableArgs(method)) {
-            LOG.warn(String.format("Overloads with variable arguments not supported. Ignoring overload %s",
-                    method.toString()));
+            LOG.warn("Overloads with variable arguments not supported. Ignoring overload {}", method);
         } else if (!keywordMap.containsKey(argCount)) {
             keywordMap.put(argCount, new ArrayList<>());
             keywordMap.get(argCount).add(new CheckedKeywordImpl(keywordClass, method));
         } else {
             keywordMap.get(argCount).add(new CheckedKeywordImpl(keywordClass, method));
+            keywordMap.get(argCount).sort(Comparator.comparingLong(t -> computeKeywordRank(t.getArguments())));
         }
+    }
+
+    /**
+     * Computes Rank of arguments used in {@link Method},
+     * the lower the rank is the better
+     *
+     * @param args {@link Method} arguments used in ranking
+     * @return Rank of arguments
+     */
+    private long computeKeywordRank(final Class<?>[] args) {
+        // TODO: specify more complex ranking for method arguments that will consider prioritizing floats, doubles, etc.
+        long rank = 0;
+        for (int i = 0; i < args.length; i++) {
+            if (String.class.equals(args[i])) {
+                rank += Math.pow(2, args.length - i);
+            }
+        }
+        LOG.debug("{} {} rank {}", keywordName, Arrays.toString(args), rank);
+        return rank;
     }
 
     @Override public String[] getArgumentNames() {
@@ -116,7 +137,7 @@ public class OverloadedKeywordImpl implements OverloadedKeyword {
     }
 
     @Override public String getDocumentation() {
-        for (List<CheckedKeyword> keywords : keywordMap.values()) {
+        for (Collection<CheckedKeyword> keywords : keywordMap.values()) {
             for (CheckedKeyword keyword : keywords) {
                 if (!keyword.getDocumentation().isEmpty()) {
                     return keyword.getDocumentation();
@@ -128,7 +149,7 @@ public class OverloadedKeywordImpl implements OverloadedKeyword {
 
     @Override public String[] getTags() {
         Set<String> tags = new HashSet<>();
-        for (List<CheckedKeyword> keywords : keywordMap.values()) {
+        for (Collection<CheckedKeyword> keywords : keywordMap.values()) {
             for (CheckedKeyword keyword : keywords) {
                 Arrays.stream(keyword.getTags()).filter(Objects::nonNull).collect(Collectors.toCollection(() -> tags));
             }
