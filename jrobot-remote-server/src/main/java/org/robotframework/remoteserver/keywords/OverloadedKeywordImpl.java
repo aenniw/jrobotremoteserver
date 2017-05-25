@@ -53,8 +53,20 @@ public class OverloadedKeywordImpl implements OverloadedKeyword {
      * @param method       {@link Method} providing execution routine
      */
     public OverloadedKeywordImpl(Object keywordClass, Method method) {
-        this.keywordName = method.getName();
-        this.keywordClass = keywordClass;
+        this(keywordClass, method, method.getName());
+    }
+
+    /**
+     * Constructor creating {@link OverloadedKeyword} providing {@link Object} and {@link Method},
+     * that are associated together
+     *
+     * @param keywordClass {@link Object} instance used for execution of {@link Method}
+     * @param method       {@link Method} providing execution routine
+     * @param name         Name of current {@link OverloadedKeyword}
+     */
+    public OverloadedKeywordImpl(Object keywordClass, Method method, String name) {
+        this.keywordName = Objects.requireNonNull(name);
+        this.keywordClass = Objects.requireNonNull(keywordClass);
         addOverload(method);
     }
 

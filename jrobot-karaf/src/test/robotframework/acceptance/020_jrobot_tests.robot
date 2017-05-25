@@ -108,11 +108,16 @@ Library Confict resolving
     Should Be Equal As Strings    ${resp}    [nine five one],[951]
     ${resp}    ConflictLib.Conflict Overloaded Method    nine five one    951    false
     Should Be Equal As Strings    ${resp}    [nine five one],[951],[false]
+    ${resp}    ConflictLib.Original Keyword    2.5
+    Should Be Equal As Strings    ${resp}    Double 2.5
+    ${resp}    ConflictLib.Original Keyword    10    9
+    Should Be Equal As Strings    ${resp}    Ints 10 9
 
 *** Keywords ***
 Setup Suite
     [Documentation]    Initialize Suite resources
     Start Karaf
+    Run On Karaf    log:set DEBUG org.robotframework.remoteserver
     Verify Feature Installed On Karaf    jrobot-remote-server
     Verify Feature Started On Karaf    jrobot-remote-server
     Install Bundle On Karaf    mvn:com.github.aenniw/jrobot-test-library

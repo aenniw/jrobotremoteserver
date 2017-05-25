@@ -17,6 +17,8 @@
  */
 package org.robotframework.remoteserver.keywords;
 
+import com.google.common.base.CaseFormat;
+import com.google.common.base.Strings;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -62,8 +64,9 @@ public class OverloadedKeywordExtractor implements KeywordExtractor<OverloadedKe
      * @return Extracted {@link Method}
      */
     public static Stream<Method> getMethods(Class<?> obj) {
-        if (obj == null)
+        if (obj == null) {
             return Stream.empty();
+        }
         Stream<Method> methods = Stream.of(obj.getMethods());
         for (Class<?> i : obj.getInterfaces()) {
             methods = Stream.concat(methods, getMethods(i));
@@ -71,34 +74,69 @@ public class OverloadedKeywordExtractor implements KeywordExtractor<OverloadedKe
         return Stream.concat(methods, getMethods(obj.getSuperclass()));
     }
 
+    /**
+     * Converts {@link org.robotframework.javalib.keyword.Keyword} value to
+     * Camelcase format
+     *
+     * @param s {@link String} that will be normalized
+     * @return Normalized {@link String} to lower Camelcase
+     */
+    public static String normalize(String s) {
+        if (!s.contains("_") && !s.contains(" ") && !s.contains("-")) {
+            return s.trim();
+        }
+        return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, s.trim().replace(' ', '_').replace('-', '_'));
+    }
+
     @Override public Map<String, OverloadedKeyword> extractKeywords(final RemoteLibrary keywordBean) {
         Objects.requireNonNull(keywordBean);
         final Map<String, OverloadedKeyword> overloadableKeywords = new HashMap<>();
-        final Set<String> interfaceKeywords = new HashSet<>(), interfaceKeywordsOverload = new HashSet<>();
-        getMethods(keywordBean.getClass()).forEach(method -> {
-            if (method.isAnnotationPresent(RobotKeyword.class)) {
-                interfaceKeywords.add(method.getName());
-            } else if (method.isAnnotationPresent(RobotKeywordOverload.class)) {
-                interfaceKeywordsOverload.add(method.getName());
+        final Map<Method, String> methodToKW = new HashMap<>();
+        final Set<String> inheritedKeywords = new HashSet<>(), inheritedKeywordsOverload = new HashSet<>();
+        getMethods(keywordBean.getClass()).forEach(m -> {
+            final RobotKeyword keyword = m.getAnnotation(RobotKeyword.class);
+            if (Objects.nonNull(keyword)) {
+                if (Objects.nonNull(Strings.emptyToNull(keyword.value()))) {
+                    methodToKW.put(m, normalize(keyword.value()));
+                }
+                inheritedKeywords.add(methodToKW.getOrDefault(m, m.getName()));
+            } else if (m.isAnnotationPresent(RobotKeywordOverload.class)) {
+                inheritedKeywordsOverload.add(m.getName());
             }
         });
         final Method methods[] = keywordBean.getClass().getMethods();
         Arrays.stream(methods)
-                .filter(m -> (m.isAnnotationPresent(RobotKeyword.class)))
-                .forEach(m -> overloadableKeywords.put(m.getName(), new OverloadedKeywordImpl(keywordBean, m)));
+                .filter(m -> m.isAnnotationPresent(RobotKeyword.class) && !m.isAnnotationPresent(
+                        RobotKeywordOverload.class))
+                .forEach(m -> {
+                    final String kwName = methodToKW.getOrDefault(m, m.getName());
+                    overloadableKeywords.put(kwName, new OverloadedKeywordImpl(keywordBean, m, kwName));
+                    LOG.debug("Keyword {} extracted {}.", m.getName(), Arrays.toString(m.getParameterTypes()));
+                });
         Arrays.stream(methods)
-                .filter(m -> (interfaceKeywords.contains(m.getName())) && !overloadableKeywords.containsKey(
-                        m.getName()))
-                .forEach(m -> overloadableKeywords.put(m.getName(), new OverloadedKeywordImpl(keywordBean, m)));
+                .filter(m -> !m.isAnnotationPresent(RobotKeyword.class) && !m.isAnnotationPresent(
+                        RobotKeywordOverload.class))
+                .forEach(m -> {
+                    final String kwName = methodToKW.getOrDefault(m, m.getName());
+                    if (inheritedKeywords.contains(kwName)) {
+                        if (overloadableKeywords.containsKey(kwName)) {
+                            overloadableKeywords.get(kwName).addOverload(m);
+                            LOG.warn("Keyword Overload {} added for in definition scope.", kwName);
+                        } else {
+                            overloadableKeywords.put(kwName, new OverloadedKeywordImpl(keywordBean, m, kwName));
+                        }
+                    }
+                });
         /*
          * FIXME: KW_O may generate unexpected KW if KW method name collide with non KW method,
          *        but as it will be added as Overloaded KW during execution best match for KW method will be used.
          */
-        Arrays.stream(methods)
-                .filter(m -> overloadableKeywords.containsKey(m.getName()) && (
-                        m.isAnnotationPresent(RobotKeywordOverload.class) || interfaceKeywordsOverload.contains(
-                                m.getName())))
-                .forEach(m -> overloadableKeywords.get(m.getName()).addOverload(m));
+        Arrays.stream(methods).filter(m -> overloadableKeywords.containsKey(m.getName())).forEach(m -> {
+            if (m.isAnnotationPresent(RobotKeywordOverload.class) || inheritedKeywordsOverload.contains(m.getName())) {
+                overloadableKeywords.get(m.getName()).addOverload(m);
+                LOG.debug("Keyword Overload {} extracted {}.", m.getName(), Arrays.toString(m.getParameterTypes()));
+            }
+        });
         return overloadableKeywords;
     }
 

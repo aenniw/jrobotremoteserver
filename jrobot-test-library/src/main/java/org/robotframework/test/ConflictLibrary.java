@@ -39,4 +39,12 @@ import org.robotframework.remoteserver.library.AbstractClassLibrary;
         return "[" + s + "],[" + a + "],[" + b + "]";
     }
 
+    @RobotKeywordOverload public String originalKeyword(double d) {
+        return "Double " + d;
+    }
+
+    @RobotKeyword("Original Keyword") public String alternative(int a, int b) {
+        return "Ints " + a + " " + b;
+    }
+
 }
