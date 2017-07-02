@@ -4,8 +4,12 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
     <feature name='jrobot-remote-server' version='${project.version}'
-             description='RobotFramework  :: Remote library server'>
+             description='RobotFramework :: Remote library server'>
         <feature>jetty</feature>
+        <bundle>wrap:mvn:org.robotframework/javalib-core/${robot.javalib.version}</bundle>
+        <bundle>wrap:mvn:org.apache.xmlrpc/xmlrpc-server/${apache.version}</bundle>
+        <bundle>wrap:mvn:org.apache.xmlrpc/xmlrpc-common/${apache.version}</bundle>
+        <bundle>wrap:mvn:org.apache.ws.commons.util/ws-commons-util/${apache.utils.version}</bundle>
         <bundle>mvn:com.google.guava/guava/${guava.version}</bundle>
         <bundle>mvn:com.fasterxml.jackson.core/jackson-core/${jackson.version}</bundle>
         <bundle>mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson.version}</bundle>

@@ -85,24 +85,6 @@
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
                 <extensions>true</extensions>
-                <configuration>
-                    <instructions>
-                        <Bundle-Name>${project.groupId}.${project.artifactId}</Bundle-Name>
-                        <Import-Package>
-                            !org.robotframework.*,
-                            !org.apache.xmlrpc.*,
-                            *
-                        </Import-Package>
-                        <Export-Package>
-                            org.apache.ws.commons.*,
-                            org.robotframework.*,
-                            org.apache.xmlrpc.*
-                        </Export-Package>
-                        <Embed-Dependency>
-                            *;artifactId=xmlrpc-server|javalib-core
-                        </Embed-Dependency>
-                    </instructions>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
