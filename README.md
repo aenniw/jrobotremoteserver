@@ -21,7 +21,7 @@ There are some number of robot acceptance tests under `jrobot-karaf/src`.
 ```
 <dependency>
     <groupId>com.github.aenniw</groupId>
-    <artifactId>robot-remote-server</artifactId>
+    <artifactId>jrobot-remote-server</artifactId>
     <version>3.5.0</version>
     <type>pom</type>
 </dependency>
@@ -30,7 +30,7 @@ There are some number of robot acceptance tests under `jrobot-karaf/src`.
 ```
 <dependency>
     <groupId>com.github.aenniw</groupId>
-    <artifactId>robot-remote-server</artifactId>
+    <artifactId>jrobot-remote-server</artifactId>
     <version>3.6-SNAPSHOT</version>
     <type>pom</type>
 </dependency>
