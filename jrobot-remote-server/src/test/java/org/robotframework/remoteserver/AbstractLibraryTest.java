@@ -28,6 +28,11 @@ import org.robotframework.remoteserver.library.AbstractClassLibrary;
         return a - b;
     }
 
+    @RobotKeyword @KeywordDocumentation(value = "concatDoc") @ArgumentNames(value = {"a", "b"})
+    public String concat(String a, String b) {
+        return a + b;
+    }
+
     @RobotKeyword @KeywordTags(value = {"default"}) public int defaultKeyword(int a, int b) {
         return a + b;
     }

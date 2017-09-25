@@ -40,10 +40,11 @@ public class OverloadedKeywordExtractorTest {
 
     @Test public void extractKeywords() throws Exception {
         final Map<String, OverloadedKeyword> keywordMap = keywordExtractor.extractKeywords(abstractLibrary);
-        Assert.assertEquals(4, keywordMap.size());
-        Assert.assertEquals(4, keywordMap.values().stream().filter(Objects::nonNull).count());
+        Assert.assertEquals(5, keywordMap.size());
+        Assert.assertEquals(5, keywordMap.values().stream().filter(Objects::nonNull).count());
         Assert.assertTrue(keywordMap.containsKey("plus"));
         Assert.assertTrue(keywordMap.containsKey("minus"));
+        Assert.assertTrue(keywordMap.containsKey("concat"));
         Assert.assertTrue(keywordMap.containsKey("defaultKeyword"));
         Assert.assertTrue(keywordMap.containsKey("libraryCleanup"));
     }
