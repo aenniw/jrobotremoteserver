@@ -25,7 +25,7 @@ public class ServerMethodsTest {
 
     @Before public void setUp() throws Exception {
         servlet = mock(RemoteServerServlet.class);
-        library = Mockito.mock(RemoteLibrary.class);
+        library = mock(RemoteLibrary.class);
         serverMethods = new ServerMethods(servlet);
     }
 
@@ -85,6 +85,48 @@ public class ServerMethodsTest {
         Assert.assertTrue(result.containsKey("return"));
         Assert.assertEquals(PASS, result.get("status"));
         Assert.assertEquals(3, result.get("return"));
+
+        result = serverMethods.run_keyword("concat", new Object[] {"Base64==", "Another=Base===64=="});
+        Assert.assertNotNull(result);
+        Assert.assertTrue(result.containsKey("status"));
+        Assert.assertTrue(result.containsKey("return"));
+        Assert.assertEquals(PASS, result.get("status"));
+        Assert.assertEquals("Base64==Another=Base===64==", result.get("return"));
+
+        result = serverMethods.run_keyword("concat", new Object[] {"=Base64==", "==Another=Base===64=="});
+        Assert.assertNotNull(result);
+        Assert.assertTrue(result.containsKey("status"));
+        Assert.assertTrue(result.containsKey("return"));
+        Assert.assertEquals(PASS, result.get("status"));
+        Assert.assertEquals("=Base64====Another=Base===64==", result.get("return"));
+
+        result = serverMethods.run_keyword("concat", new Object[] {"a=Base64==", "b=Another=Base===64=="});
+        Assert.assertNotNull(result);
+        Assert.assertTrue(result.containsKey("status"));
+        Assert.assertTrue(result.containsKey("return"));
+        Assert.assertEquals(PASS, result.get("status"));
+        Assert.assertEquals("Base64==Another=Base===64==", result.get("return"));
+
+        result = serverMethods.run_keyword("concat", new Object[] {"a=a", "b=="});
+        Assert.assertNotNull(result);
+        Assert.assertTrue(result.containsKey("status"));
+        Assert.assertTrue(result.containsKey("return"));
+        Assert.assertEquals(PASS, result.get("status"));
+        Assert.assertEquals("a=", result.get("return"));
+
+        result = serverMethods.run_keyword("concat", new Object[] {"a=a", "c=="});
+        Assert.assertNotNull(result);
+        Assert.assertTrue(result.containsKey("status"));
+        Assert.assertTrue(result.containsKey("return"));
+        Assert.assertEquals(PASS, result.get("status"));
+        Assert.assertEquals("ac==", result.get("return"));
+
+        result = serverMethods.run_keyword("concat", new Object[] {"a=a", "c="});
+        Assert.assertNotNull(result);
+        Assert.assertTrue(result.containsKey("status"));
+        Assert.assertTrue(result.containsKey("return"));
+        Assert.assertEquals(PASS, result.get("status"));
+        Assert.assertEquals("ac=", result.get("return"));
 
         result = serverMethods.run_keyword("plus", new Object[] {"a=1", "b=2.0"});
         Assert.assertNotNull(result);

@@ -17,7 +17,6 @@ package org.robotframework.remoteserver.servlet;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -120,12 +119,14 @@ public class ServerMethods implements JRobotServlet {
 
     @Override public Map<String, Object> run_keyword(String keyword, Object[] args) {
         Map<String, Object> kwargs = new HashMap<>();
-        for (Object arg : Objects.requireNonNull(args)) {
-            if (arg.toString().contains("=")) {
-                kwargs.put(arg.toString().split("=")[0], arg.toString().split("=")[1]);
+        // If '=' is at the beginning of argument declaration or at the end argument is not kwarg candidate
+        Arrays.stream(Objects.requireNonNull(args)).map(Object::toString).forEach(argument -> {
+            final int split = argument.indexOf("=");
+            if (split > 0 && split < argument.length() - 1) {
+                kwargs.put(argument.substring(0, split), argument.substring(split + 1));
             }
-        }
-        return run_keyword(keyword, args, kwargs.isEmpty() ? Collections.emptyMap() : kwargs);
+        });
+        return run_keyword(keyword, args, kwargs);
     }
 
     @Override public String[] get_keyword_arguments(String keyword) {
