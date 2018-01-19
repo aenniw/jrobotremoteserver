@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.aenniw</groupId>
     <artifactId>jrobot-parent</artifactId>
-    <version>3.5.1</version>
+    <version>3.6-SNAPSHOT</version>
     <modules>
         <module>jrobot-remote-server</module>
         <module>jrobot-test-library</module>
@@ -240,6 +240,6 @@
         <connection>scm:git:git@github.com:aenniw/jrobotremoteserver.git</connection>
         <developerConnection>scm:git:git@github.com:aenniw/jrobotremoteserver.git</developerConnection>
         <url>git@github.com:aenniw/jrobotremoteserver.git</url>
-        <tag>3.5.1</tag>
+        <tag>HEAD</tag>
     </scm>
 </project>
