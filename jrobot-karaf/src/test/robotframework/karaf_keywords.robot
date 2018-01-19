@@ -8,8 +8,8 @@ ${KARAF_ROOT}     ./jrobot-karaf/target/assembly
 *** Keywords ***
 Start Karaf
     [Documentation]    Starts karaf container instance
-    ${rc}    Run and Return RC    ${KARAF_ROOT}/bin/start.bat
-    ${rc}    Run Keyword If    ${rc} != 0    Run and Return RC    ${KARAF_ROOT}/bin/start
+    ${rc}    Run and Return RC    ${KARAF_ROOT}/bin/start.bat clean
+    ${rc}    Run Keyword If    ${rc} != 0    Run and Return RC    ${KARAF_ROOT}/bin/start clean
     Should Be Equal As Integers    ${rc}    0
     Wait Until Keyword Succeeds    10    1    Karaf Status    Running
     Wait Until Keyword Succeeds    120    1    Run On Karaf    info
