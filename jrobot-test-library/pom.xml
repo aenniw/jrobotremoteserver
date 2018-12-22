@@ -25,9 +25,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <!-- Enables default Java8 storing of parameter names -->
                     <compilerArgument>-parameters</compilerArgument>
                 </configuration>
             </plugin>
