@@ -4,7 +4,7 @@
     <parent>
         <artifactId>jrobot-parent</artifactId>
         <groupId>com.github.aenniw</groupId>
-        <version>3.6.0</version>
+        <version>3.7-SNAPSHOT</version>
     </parent>
     <artifactId>jrobot-test-library</artifactId>
     <packaging>bundle</packaging>
