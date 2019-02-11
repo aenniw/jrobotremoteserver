@@ -1,4 +1,6 @@
-services:
-  - docker
+language: java
+jdk:
+  - openjdk11
+  - oraclejdk11
 script:
-  - docker run -v $(pwd):/project -w /project -ti --rm maven:3.6.0-jdk-11-slim mvn install -DcoverallToken=${COV_TOKEN} jacoco:report coveralls:report
+  - mvn install -DcoverallToken=${COV_TOKEN} jacoco:report coveralls:report
