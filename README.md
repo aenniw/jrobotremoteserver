@@ -1,6 +1,6 @@
 # Jrobot-remote-server
 
-[![N|Solid](https://travis-ci.org/aenniw/jrobotremoteserver.svg?branch=master)](https://travis-ci.org/aenniw/jrobotremoteserver)
+[![N|Solid](https://travis-ci.org/aenniw/jrobotremoteserver.svg?branch=java-8)](https://travis-ci.org/aenniw/jrobotremoteserver)
 [![N|Solid](https://coveralls.io/repos/github/aenniw/jrobotremoteserver/badge.svg?branch=master)](https://coveralls.io/github/aenniw/jrobotremoteserver?branch=master)
 
 Jrobot-remote-server is a [remote server](https://code.google.com/p/robotframework/wiki/RemoteLibrary) for [Robot Framework](http://robotframework.googlecode.com/) implemented in Java.
@@ -22,7 +22,7 @@ There are some number of robot acceptance tests under `jrobot-karaf/src`.
 <dependency>
     <groupId>com.github.aenniw</groupId>
     <artifactId>jrobot-remote-server</artifactId>
-    <version>3.5.1</version>
+    <version>3.5.2</version>
     <type>pom</type>
 </dependency>
 ```
@@ -31,7 +31,7 @@ There are some number of robot acceptance tests under `jrobot-karaf/src`.
 <dependency>
     <groupId>com.github.aenniw</groupId>
     <artifactId>jrobot-remote-server</artifactId>
-    <version>3.6-SNAPSHOT</version>
+    <version>3.5.3-SNAPSHOT</version>
     <type>pom</type>
 </dependency>
 ```
