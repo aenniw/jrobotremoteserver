@@ -46,7 +46,7 @@
         <maven.compiler.release>${java.version}</maven.compiler.release>
 
         <apache.version>3.1.3</apache.version>
-        <apache.karaf.version>4.2.2</apache.karaf.version>
+        <apache.karaf.version>4.2.3</apache.karaf.version>
         <apache.utils.version>1.0.2</apache.utils.version>
         <guava.version>26.0-jre</guava.version>
         <jackson.version>2.9.8</jackson.version>
